@@ -1,39 +1,39 @@
 import express from "express";
 import {
-    getAllTracks,
-    createTrack,
-    getTrackById,
-    deleteTrack,
-    updateTrack,
+  getAllTracks,
+  createTrack,
+  getTrackById,
+  deleteTrack,
+  updateTrack,
 } from "../controllers/trackController";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
 
-const loanRouter: express.Router = express.Router();
+const trackRouter: express.Router = express.Router();
 
-loanRouter.post(
-    "/tracks",
-    authenticate,
-    isAuthorized({ hasRole: ["admin", "manager"] }),
-    createTrack
+trackRouter.post(
+  "/tracks",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager"] }),
+  createTrack,
 );
 
-loanRouter.get("/tracks", getAllTracks);
+trackRouter.get("/tracks", getAllTracks);
 
-loanRouter.get("/loans/:id", authenticate, isAuthorized({ hasRole: ["admin", "manager", "user"] }), getTrackById);
+trackRouter.get("/tracks/:id", getTrackById,);
 
-loanRouter.put(
-    "/tracks/:id",
-    authenticate,
-    isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
-    updateTrack
+trackRouter.put(
+  "/tracks/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
+  updateTrack,
 );
 
-loanRouter.delete(
-    "/loans/:id",
-    authenticate,
-    isAuthorized({ hasRole: ["admin", "manager"] }),
-    deleteTrack
+trackRouter.delete(
+  "/tracks/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager"] }),
+  deleteTrack,
 );
 
-export default loanRouter;
+export default trackRouter;
