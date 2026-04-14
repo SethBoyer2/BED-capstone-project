@@ -1,5 +1,6 @@
 import * as services from "../src/api/v1/services/trackService";
 import * as firestoreRepository from "../src/api/v1/repositories/firestoreRepository";
+import { tracks } from "../src/api/v1/services/trackService";
 
 jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
   getDocumentById: jest.fn(),
@@ -80,4 +81,45 @@ describe("Track deletion validation", () => {
       validId,
     );
   });
+
+
+// not working yet
+
+//   describe("Get Track by ID test", () => {
+//     beforeEach(() => {
+//         tracks.length = 0
+//         tracks.push (
+//             { id: "1", album: "hi", artist: "yes", title: "maybe", length: "1:23"},
+//             { id: "2", album: "hello", artist: "no", title: "fosho", length: "1:54" }
+//         )
+//     })
+//   it("Should return track with matching ID", async () => {
+
+//     // Act
+//     const result = await services.getTrackByIdService("1")
+
+//     // Assert
+//     expect(result?.id).toBe(1)
+
+//   })
+// })
+
+// describe("Get Tracks test", () => {
+//     beforeEach(() => {
+//         tracks.length = 0
+//         tracks.push (
+//             { id: "1", album: "hi", artist: "yes", title: "maybe", length: "1:23"},
+//             { id: "2", album: "hello", artist: "no", title: "fosho", length: "1:54" }
+//         )
+//     })
+//   it("Should return all events", async () => {
+
+//     // Act
+//     const result = await services.getAllTracksService()
+
+//     // Assert
+//     expect(result.length).toBe(2)
+
+//   })
+// })
 });
