@@ -1,5 +1,5 @@
-import * as services from "../src/api/v1/services/trackService"
-import * as firestoreRepository from "../src/api/v1/repositories/firestoreRepository"
+import * as services from "../src/api/v1/services/trackService";
+import * as firestoreRepository from "../src/api/v1/repositories/firestoreRepository";
 
 jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
   getDocumentById: jest.fn(),
@@ -9,14 +9,12 @@ jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
   updateDocument: jest.fn(),
 }));
 
-
-
-jest.mock("../src/api/v1/repositories/firestoreRepository")
+jest.mock("../src/api/v1/repositories/firestoreRepository");
 
 describe("Create Event Validation", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it("Should successfully create a track given valid metadata", async () => {
     // Arrange
     const mockTrackData = {
@@ -24,31 +22,30 @@ describe("Create Event Validation", () => {
       artist: "Macintosh Plus",
       title: "420",
       length: "3:21",
-    }
+    };
     const mockDocumentId = "test-id";
 
     (firestoreRepository.createDocument as jest.Mock).mockResolvedValue(
-      mockDocumentId
-      );
+      mockDocumentId,
+    );
 
     // Act
-    const result = await services.createTrackService(mockTrackData)
+    const result = await services.createTrackService(mockTrackData);
 
     // Assert
-        expect(firestoreRepository.createDocument).toHaveBeenCalledWith(
-            "tracks",
-            expect.objectContaining({
-                album: mockTrackData.album,
-                artist: mockTrackData.artist,
-                title: mockTrackData.title,
-                length: mockTrackData.length,
-            })
-        );
-        expect(result.id).toBe(mockDocumentId);
-        expect(result.title).toBe(mockTrackData.title);
-
-  })
-})
+    expect(firestoreRepository.createDocument).toHaveBeenCalledWith(
+      "tracks",
+      expect.objectContaining({
+        album: mockTrackData.album,
+        artist: mockTrackData.artist,
+        title: mockTrackData.title,
+        length: mockTrackData.length,
+      }),
+    );
+    expect(result.id).toBe(mockDocumentId);
+    expect(result.title).toBe(mockTrackData.title);
+  });
+});
 
 describe("Track deletion validation", () => {
   beforeEach(() => {
@@ -66,16 +63,21 @@ describe("Track deletion validation", () => {
       length: "4:00",
     });
 
-    (firestoreRepository.deleteDocument as jest.Mock).mockResolvedValue(undefined);
+    (firestoreRepository.deleteDocument as jest.Mock).mockResolvedValue(
+      undefined,
+    );
 
     // act
     await services.deleteTrackService(validId);
 
     // assert
-    expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith("tracks", validId);
-    expect(firestoreRepository.deleteDocument).toHaveBeenCalledWith("tracks", validId);
-  })
-
-})
-
-
+    expect(firestoreRepository.getDocumentById).toHaveBeenCalledWith(
+      "tracks",
+      validId,
+    );
+    expect(firestoreRepository.deleteDocument).toHaveBeenCalledWith(
+      "tracks",
+      validId,
+    );
+  });
+});
