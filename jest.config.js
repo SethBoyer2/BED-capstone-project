@@ -3,7 +3,7 @@ module.exports = {
 
   testEnvironment: "node",
 
-  testMatch: ["/.test.ts"],
+  testMatch: ["\*\*/\*.test.ts"],
 
   collectCoverageFrom: [
     "src/.ts",

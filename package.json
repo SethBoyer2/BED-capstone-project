@@ -25,9 +25,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "start": "ts-node src/server.ts",
     "build": "tsc",
