@@ -46,7 +46,8 @@ const authenticate = async (
 
         res.locals.uid = decodedToken.uid;
 
-        // Token wasn't returning roles properly. if admin = true in decoded Token then role = admin overall
+        // Token wasn't returning roles properly.
+        // If admin === true in token, set res.locals.role value to admin as well.
         if (decodedToken.admin === true) {
         res.locals.role = "admin";
         } else {
