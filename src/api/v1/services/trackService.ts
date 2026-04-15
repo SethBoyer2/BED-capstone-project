@@ -1,4 +1,4 @@
-import { TrackMetadata } from "../models/models";
+import { TrackMetadataInput } from "../models/models";
 import {
     createDocument,
     getDocuments,
@@ -9,33 +9,38 @@ import {
 
 const COLLECTION = "tracks";
 
-export const tracks: TrackMetadata[] = [];
+export const tracks: TrackMetadataInput[] = [];
 
 export const createTrackService = async (trackData: {
     artist: String,
     album: String,
     title: String, //change
     length: String
-}): Promise<TrackMetadata> => {
+}): Promise<TrackMetadataInput> => {
     try {
+        const [min, sec] = trackData.length.split(':')
+        const parsedLength = Number(min) * 60 + Number(sec)
+// length input parser (mm:ss to seconds)
+
         const now = new Date();
         const newTrackData = {
             ...trackData,
+            length: parsedLength,
             createdAt: now,
             updatedAt: now,
         };
 
-        const id = await createDocument<TrackMetadata>(COLLECTION, newTrackData);
-        return { id, ...newTrackData } as TrackMetadata;
+        const id = await createDocument<TrackMetadataInput>(COLLECTION, newTrackData);
+        return { id, ...newTrackData } as TrackMetadataInput;
     } catch (error) {
         throw error;
     }
 };
 
-export const getAllTracksService = async (): Promise<TrackMetadata[]> => {
+export const getAllTracksService = async (): Promise<TrackMetadataInput[]> => {
     try {
         const snapshot = await getDocuments(COLLECTION);
-        const tracks: TrackMetadata[] = snapshot.docs.map((doc) => {
+        const tracks: TrackMetadataInput[] = snapshot.docs.map((doc) => {
             const data = doc.data();
             return {
                 id: doc.id,
@@ -45,7 +50,7 @@ export const getAllTracksService = async (): Promise<TrackMetadata[]> => {
                 length: data.length,
                 createdAt: data.createdAt?.toDate() || new Date(),
                 updatedAt: data.updatedAt?.toDate() || new Date(),
-            } as TrackMetadata;
+            } as TrackMetadataInput;
         });
         return tracks;
     } catch (error) {
@@ -53,7 +58,7 @@ export const getAllTracksService = async (): Promise<TrackMetadata[]> => {
     }
 };
 
-export const getTrackByIdService = async (id: string): Promise<TrackMetadata> => {
+export const getTrackByIdService = async (id: string): Promise<TrackMetadataInput> => {
     try {
         const doc = await getDocumentById(COLLECTION, id);
         if (!doc) {
@@ -65,7 +70,7 @@ export const getTrackByIdService = async (id: string): Promise<TrackMetadata> =>
           throw new Error(`No Valid Data.`)
         }
 
-        const track: TrackMetadata = {
+        const track: TrackMetadataInput = {
             id: doc.id,
             artist: data.artist,
             album: data.album,
@@ -73,7 +78,7 @@ export const getTrackByIdService = async (id: string): Promise<TrackMetadata> =>
             length: data.length,
             createdAt: data.createdAt?.toDate() || new Date(),
             updatedAt: data.updatedAt?.toDate() || new Date(),
-        } as TrackMetadata;
+        } as TrackMetadataInput;
 
         return track;
     } catch (error) {
@@ -97,15 +102,15 @@ export const deleteTrackService = async (id: string): Promise<void> => {
 
 export const updateTrackService = async (
     id: string,
-    trackData: Partial<Pick<TrackMetadata, "artist" | "album" | "title" | "length">>
-): Promise<TrackMetadata> => {
+    trackData: Partial<Pick<TrackMetadataInput, "artist" | "album" | "title" | "length">>
+): Promise<TrackMetadataInput> => {
     try {
         const updateData = {
             ...trackData,
             updatedAt: new Date(),
         };
 
-        await updateDocument<TrackMetadata>(COLLECTION, id, updateData);
+        await updateDocument<TrackMetadataInput>(COLLECTION, id, updateData);
 
         // Return the updated item
         const updatedTrack = await getTrackByIdService(id);

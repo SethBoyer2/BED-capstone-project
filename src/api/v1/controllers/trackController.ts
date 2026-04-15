@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express"
-import { TrackMetadata } from "../models/models"
+import { TrackMetadataInput } from "../models/models"
 import { HTTP_STATUS } from "../../../constants/httpConstants"
 import { successResponse } from "../models/responseModel"
 import { createTrackService, deleteTrackService, getAllTracksService, getTrackByIdService, updateTrackService } from "../services/trackService"
 
 export const getAllTracks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const tracks: TrackMetadata[] = await getAllTracksService()
+        const tracks: TrackMetadataInput[] = await getAllTracksService()
         res.status(HTTP_STATUS.OK).json(
             successResponse(tracks, "Track metadata retrieved successfully")
         )
@@ -19,10 +19,10 @@ export const getAllTracks = async (req: Request, res: Response, next: NextFuncti
 export const createTrack = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Create new Event object
   try {
-    const track: TrackMetadata = req.body
+    const track: TrackMetadataInput = req.body
     const createdTrack = await createTrackService(track)
 
-        const newTrack: TrackMetadata = await createTrackService(createdTrack)
+        const newTrack: TrackMetadataInput = await createTrackService(createdTrack)
         res.status(HTTP_STATUS.CREATED).json(
             successResponse(newTrack, "Track metadata created successfully")
         )
@@ -34,7 +34,7 @@ export const createTrack = async (req: Request, res: Response, next: NextFunctio
 export const getTrackById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id = req.params.id as string
-        const track: TrackMetadata = await getTrackByIdService(id)
+        const track: TrackMetadataInput = await getTrackByIdService(id)
         res.status(HTTP_STATUS.OK).json(
             successResponse(track, "Track Metadata retrieved successfully")
         )
@@ -63,7 +63,7 @@ export const updateTrack = async (req: Request, res: Response, next: NextFunctio
         // Create update data object with only the fields that can be updated
         const updateData = { artist, album, title, length }
 
-        const updatedTrack: TrackMetadata = await updateTrackService(id, updateData)
+        const updatedTrack: TrackMetadataInput = await updateTrackService(id, updateData)
         res.status(HTTP_STATUS.OK).json(
             successResponse(updatedTrack, "Track updated successfully")
         )
