@@ -43,8 +43,17 @@ const authenticate = async (
         const decodedToken: DecodedIdToken = await auth.verifyIdToken(
             token
         );
+
         res.locals.uid = decodedToken.uid;
-        res.locals.role = decodedToken.role;
+
+        // Token wasn't returning roles properly.
+        // If admin === true in token, set res.locals.role value to admin as well.
+        if (decodedToken.admin === true) {
+        res.locals.role = "admin";
+        } else {
+        res.locals.role = undefined;
+        }
+
         next();
     } catch (error: unknown) {
         if (error instanceof AuthenticationError) {
