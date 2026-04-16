@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { TrackMetadataInput } from "../models/models"
+import { TrackMetadataInput, TrackMetadataBuild, TrackMetadataEntity } from "../models/models"
 import { HTTP_STATUS } from "../../../constants/httpConstants"
 import { successResponse } from "../models/responseModel"
 import { createTrackService, deleteTrackService, getAllTracksService, getTrackByIdService, updateTrackService } from "../services/trackService"
