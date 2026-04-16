@@ -1,25 +1,25 @@
 export interface TrackMetadataInput {
-    "artist": String,
-    "album": String,
-    "title": String,
-    "length": String
+    "artist": string,
+    "album": string,
+    "title": string,
+    "length": string
 }
 
 export interface TrackMetadataBuild {
-    "artist": String,
-    "album": String,
-    "title": String,
-    "length": Number,
+    "artist": string,
+    "album": string,
+    "title": string,
+    "length": number,
     "createdAt": Date,
     "updatedAt": Date
 }
 
 export interface TrackMetadataEntity {
-    "id": String
-    "artist": String,
-    "album": String,
-    "title": String,
-    "length": Number,
+    "id": string
+    "artist": string,
+    "album": string,
+    "title": string,
+    "length": number,
     "createdAt": Date,
     "updatedAt": Date
 }
