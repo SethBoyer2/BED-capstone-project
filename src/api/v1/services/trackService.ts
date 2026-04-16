@@ -17,16 +17,16 @@ export const tracks: TrackMetadataInput[] = [];
 
 // length parsing helper function
 const parseLength = (length: string) => {
-    const [min, sec] = length.split(":");
-    return Number(min) * 60 + Number(sec)
-}
+  const [min, sec] = length.split(":");
+  return Number(min) * 60 + Number(sec);
+};
 
 // input data -> sanitize length and make build object -> add ID and return as entity
 export const createTrackService = async (
   trackData: TrackMetadataInput,
 ): Promise<TrackMetadataEntity> => {
   try {
-    const parsedLength = parseLength(trackData.length)
+    const parsedLength = parseLength(trackData.length);
 
     const now = new Date();
 
@@ -50,10 +50,10 @@ export const createTrackService = async (
   }
 };
 
-export const getAllTracksService = async (): Promise<TrackMetadataInput[]> => {
+export const getAllTracksService = async (): Promise<TrackMetadataEntity[]> => {
   try {
     const snapshot = await getDocuments(COLLECTION);
-    const tracks: TrackMetadataInput[] = snapshot.docs.map((doc) => {
+    const tracks: TrackMetadataEntity[] = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
@@ -63,7 +63,7 @@ export const getAllTracksService = async (): Promise<TrackMetadataInput[]> => {
         length: data.length,
         createdAt: data.createdAt?.toDate() || new Date(),
         updatedAt: data.updatedAt?.toDate() || new Date(),
-      } as TrackMetadataInput;
+      } as TrackMetadataEntity;
     });
     return tracks;
   } catch (error) {
@@ -125,15 +125,15 @@ export const updateTrackService = async (
   try {
     // separate length from other metadata
     // This allows us to overwrite length later if it needs to be parsed
-    const {length, ...metadata} = trackData
+    const { length, ...metadata } = trackData;
 
     const updateData: Partial<TrackMetadataBuild> = {
       ...metadata,
       updatedAt: new Date(),
     };
 
-    if(length !== undefined) {
-        updateData.length = parseLength(length)
+    if (length !== undefined) {
+      updateData.length = parseLength(length);
     }
 
     await updateDocument<TrackMetadataBuild>(COLLECTION, id, updateData);

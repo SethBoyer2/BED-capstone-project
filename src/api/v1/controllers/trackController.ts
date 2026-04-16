@@ -20,7 +20,7 @@ export const getAllTracks = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const tracks: TrackMetadataInput[] = await getAllTracksService();
+    const tracks: TrackMetadataEntity[] = await getAllTracksService();
     res
       .status(HTTP_STATUS.OK)
       .json(successResponse(tracks, "Track metadata retrieved successfully"));
