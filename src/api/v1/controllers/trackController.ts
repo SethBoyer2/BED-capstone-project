@@ -57,7 +57,7 @@ export const getTrackById = async (
 ): Promise<void> => {
   try {
     const id = req.params.id as string;
-    const track: TrackMetadataInput = await getTrackByIdService(id);
+    const track: TrackMetadataEntity = await getTrackByIdService(id);
     res
       .status(HTTP_STATUS.OK)
       .json(successResponse(track, "Track Metadata retrieved successfully"));
@@ -65,7 +65,8 @@ export const getTrackById = async (
     next(error);
   }
 };
-// need authorization
+
+
 export const deleteTrack = async (
   req: Request,
   res: Response,
@@ -81,7 +82,8 @@ export const deleteTrack = async (
     next(error);
   }
 };
-// need authorization
+
+
 export const updateTrack = async (
   req: Request,
   res: Response,
@@ -94,7 +96,7 @@ export const updateTrack = async (
     // Create update data object with only the fields that can be updated
     const updateData = { artist, album, title, length };
 
-    const updatedTrack: TrackMetadataInput = await updateTrackService(
+    const updatedTrack: TrackMetadataEntity = await updateTrackService(
       id,
       updateData,
     );
