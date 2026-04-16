@@ -1,15 +1,25 @@
 export interface TrackMetadataInput {
-    "id": String,
     "artist": String,
     "album": String,
     "title": String,
     "length": String
 }
 
-export interface TrackMetadataEntity {
-    "id": String,
+export interface TrackMetadataBuild {
     "artist": String,
     "album": String,
     "title": String,
-    "length": Number
+    "length": Number,
+    "createdAt": Date,
+    "updatedAt": Date
+}
+
+export interface TrackMetadataEntity {
+    "id": String
+    "artist": String,
+    "album": String,
+    "title": String,
+    "length": Number,
+    "createdAt": Date,
+    "updatedAt": Date
 }

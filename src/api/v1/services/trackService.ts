@@ -1,4 +1,4 @@
-import { TrackMetadataInput } from "../models/models";
+import { TrackMetadataInput, TrackMetadataBuild, TrackMetadataEntity } from "../models/models";
 import {
     createDocument,
     getDocuments,
@@ -11,27 +11,28 @@ const COLLECTION = "tracks";
 
 export const tracks: TrackMetadataInput[] = [];
 
-export const createTrackService = async (trackData: {
-    artist: String,
-    album: String,
-    title: String, //change
-    length: String
-}): Promise<TrackMetadataInput> => {
+// input data -> sanitize length and make build object -> add ID and return as entity
+export const createTrackService = async (trackData: TrackMetadataInput): Promise<TrackMetadataEntity> => {
+
+    // Parse length from raw data into seconds
     try {
         const [min, sec] = trackData.length.split(':')
         const parsedLength = Number(min) * 60 + Number(sec)
-// length input parser (mm:ss to seconds)
 
         const now = new Date();
-        const newTrackData = {
+
+        // add parsed length to build object (raw input doesn't accept numbers)
+        const newTrackData: TrackMetadataBuild = {
             ...trackData,
             length: parsedLength,
             createdAt: now,
             updatedAt: now,
         };
 
-        const id = await createDocument<TrackMetadataInput>(COLLECTION, newTrackData);
-        return { id, ...newTrackData } as TrackMetadataInput;
+        // Get ID
+        const id = await createDocument<TrackMetadataBuild>(COLLECTION, newTrackData);
+        // Add id to track data and return entity
+        return { id, ...newTrackData };
     } catch (error) {
         throw error;
     }
