@@ -91,7 +91,6 @@ trackRouter.post(
  */
 trackRouter.get("/tracks", getAllTracks);
 
-
 /**
  * @openapi
  * /tracks/:id:
@@ -117,8 +116,7 @@ trackRouter.get("/tracks", getAllTracks);
  *       '403':
  *         description: Not authorized to update this track
  */
-trackRouter.get("/tracks/:id", getTrackById,);
-
+trackRouter.get("/tracks/:id", getTrackById);
 
 /**
  * @openapi
