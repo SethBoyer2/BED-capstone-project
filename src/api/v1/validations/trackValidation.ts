@@ -69,6 +69,7 @@ export const itemSchemas = {
             "number.max": "Title must be 80 characters or less"
         }),
 
+      // IMPORTANT: Figure out how to disallow the length field if no other field is present.
       length: Joi.string()
         .optional()
         .trim()
