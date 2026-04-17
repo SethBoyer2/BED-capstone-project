@@ -1,6 +1,7 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import express from "express";
-import helmet from "helmet"
+import cors from "cors";
+
 
 import { getHelmetConfig } from "./config/helmetConfig";
 
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Body parsing middleware
 app.use(express.json());
+app.use(cors(getCorsOptions()));
 app.use(getHelmetConfig());
 // API Routes
 app.use("/api/v1", trackRouter);
