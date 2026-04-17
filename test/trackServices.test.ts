@@ -22,7 +22,7 @@ describe("Create Event Validation", () => {
       album: "Floral Shoppe",
       artist: "Macintosh Plus",
       title: "420",
-      length: "3:21",
+      length: "2:05",
     };
     const mockDocumentId = "test-id";
 
