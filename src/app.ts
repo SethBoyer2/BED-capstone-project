@@ -1,4 +1,13 @@
+import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
+
+
+import { getHelmetConfig } from "./config/helmetConfig";
+
+
+dotenv.config()
+
 import {
     accessLogger,
     errorLogger,
@@ -7,6 +16,7 @@ import {
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
 import setupSwagger from "./config/swagger";
+
 
 const app = express();
 
@@ -22,7 +32,8 @@ if (process.env.NODE_ENV === "production") {
 
 // Body parsing middleware
 app.use(express.json());
-
+app.use(cors(getCorsOptions()));
+app.use(getHelmetConfig());
 // API Routes
 app.use("/api/v1", trackRouter);
 
