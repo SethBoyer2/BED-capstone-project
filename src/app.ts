@@ -1,4 +1,8 @@
+import dotenv from "dotenv"
 import express from "express";
+
+dotenv.config()
+
 import {
     accessLogger,
     errorLogger,
@@ -7,6 +11,7 @@ import {
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
 import setupSwagger from "./config/swagger";
+
 
 const app = express();
 
