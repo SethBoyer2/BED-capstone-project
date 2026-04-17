@@ -1,0 +1,324 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Task Management API Documentation",
+    "version": "1.0.0",
+    "description": "This is the API documentation for the Task Management application."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Item": {
+        "type": "object",
+        "properties": {
+          "album": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Name of the album",
+            "example": "Graduation"
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Name of the artist",
+            "example": "Kanye West"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the song",
+            "example": "Can't tell me nothing"
+          },
+          "length": {
+            "type": "string",
+            "format": "mm:ss",
+            "description": "Length of the song",
+            "example": "4:31"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the metadata was created",
+            "example": "2024-01-15T10:30:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the metadata was last updated",
+            "example": "2024-01-20T14:45:00Z"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error",
+          "message"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error type or code",
+            "example": "VALIDATION_ERROR"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "The email field is required"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "issue": {
+                  "type": "string",
+                  "example": "must be a valid email address"
+                }
+              }
+            },
+            "description": "Detailed validation errors (optional)"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/tracks": {
+      "post": {
+        "summary": "Create a new track",
+        "tags": [
+          "Tracks"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "album",
+                  "artist",
+                  "title",
+                  "length"
+                ],
+                "properties": {
+                  "album": {
+                    "type": "string",
+                    "description": "The name of the album",
+                    "example": "Graduation"
+                  },
+                  "artist": {
+                    "type": "string",
+                    "description": "The artist that created the album/track",
+                    "example": "Kanye West"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "The title of the track",
+                    "example": "Can't tell me nothing"
+                  },
+                  "length": {
+                    "type": "string",
+                    "description": "The length of the track",
+                    "example": "4:31"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Track created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve a list of all uploaded tracks",
+        "tags": [
+          "Tracks"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved tracks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tracks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Item"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "page": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tracks/:id": {
+      "get": {
+        "summary": "display specific track based on ID",
+        "tags": [
+          "Tracks"
+        ],
+        "parameters": [
+          {
+            "id": "string",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the track"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully retrieved track(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorized to update this track"
+          },
+          "404": {
+            "description": "Track not found"
+          }
+        }
+      }
+    },
+    "/tracks/{id}": {
+      "put": {
+        "summary": "Update a specific tracks metadata",
+        "tags": [
+          "Tracks"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "album": {
+                    "type": "string",
+                    "description": "Name of the album",
+                    "example": "Graduation"
+                  },
+                  "artist": {
+                    "type": "string",
+                    "description": "Name of the artist",
+                    "example": "Kanye West"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the song",
+                    "example": "Can't tell me nothing"
+                  },
+                  "length": {
+                    "type": "string",
+                    "format": "mm:ss",
+                    "description": "length of the song",
+                    "example": "3:16"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "track updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Item"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

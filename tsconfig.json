@@ -23,7 +23,7 @@
     "types": [ "jest", "node" ]
   },
 
-  "include": ["src/**/*", "test/**/*", "config/**/*"], // Include all TypeScript files in the 'src' and 'tests' directories.
+  "include": ["src/**/*", "test/**/*", "config/**/*", "scripts"], // Include all TypeScript files in the 'src' and 'tests' directories.
 
   "exclude": ["node_modules", "dist"] // Exclude 'node\_modules' and 'dist' directories.
 }
