@@ -32,26 +32,26 @@ const trackRouter: express.Router = express.Router();
  *               album:
  *                   type: string
  *                   description: The name of the album
- *                   example: "Hit Vibes"
+ *                   example: "Graduation"
  *               artist:
  *                   type: string
  *                   description: The artist that created the album/track
- *                   example: "Saint Pepsi"
+ *                   example: "Kanye West"
  *               title:
  *                   type: string
  *                   description: The title of the track
- *                   example: "Enjoy Yourself"
+ *                   example: "Can't tell me nothing"
  *               length:
  *                   type: string
  *                   description: The length of the track
- *                   example: "3:14"
+ *                   example: "4:31"
  *     responses:
  *       '201':
  *         description: Track created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Track'
+ *               $ref: '#/components/schemas/Item'
  *       '400':
  *         description: Invalid input data
  *         content:
@@ -83,7 +83,7 @@ trackRouter.post(
  *                 tracks:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Track'
+ *                     $ref: '#/components/schemas/Item'
  *                 total:
  *                   type: integer
  *                 page:
@@ -110,7 +110,7 @@ trackRouter.get("/tracks", getAllTracks);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Track'
+ *               $ref: '#/components/schemas/Item'
  *       '404':
  *         description: Track not found
  *       '403':
@@ -120,7 +120,7 @@ trackRouter.get("/tracks/:id", getTrackById);
 
 /**
  * @openapi
- * /events/{id}:
+ * /tracks/{id}:
  *   put:
  *     summary: Update a specific tracks metadata
  *     tags: [Tracks]
@@ -139,27 +139,30 @@ trackRouter.get("/tracks/:id", getTrackById);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               album:
  *                 type: string
- *                 description: Updated name of the event
- *               date:
+ *                 description: Name of the album
+ *                 example: "Graduation"
+ *               artist:
  *                 type: string
- *                 format: date-time
- *                 description: Updated track date
- *               status:
+ *                 description: Name of the artist
+ *                 example: "Kanye West"
+ *               title:
  *                 type: string
- *                 enum: [Active, Cancelled, Completed]
- *                 description: Updated track status
- *               capacity:
- *                 type: number
- *                 description: Updated capacity
+ *                 description: Title of the song
+ *                 example: "Can't tell me nothing"
+ *               length:
+ *                 type: string
+ *                 format: mm:ss
+ *                 description: length of the song
+ *                 example: "3:16"
  *     responses:
  *       '201':
  *         description: track updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Track'
+ *               $ref: '#/components/schemas/Item'
  *       '400':
  *         description: Invalid input data
  *         content:
