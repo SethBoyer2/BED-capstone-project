@@ -6,6 +6,7 @@ import {
 } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
+import setupSwagger from "./config/swagger";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get("/health", (_req, res) => {
   });
 });
 
+setupSwagger(app)
 // Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
 
