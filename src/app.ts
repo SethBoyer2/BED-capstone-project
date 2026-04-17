@@ -1,5 +1,9 @@
 import dotenv from "dotenv"
 import express from "express";
+import helmet from "helmet"
+
+import { getHelmetConfig } from "./config/helmetConfig";
+
 
 dotenv.config()
 
@@ -27,7 +31,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Body parsing middleware
 app.use(express.json());
-
+app.use(getHelmetConfig());
 // API Routes
 app.use("/api/v1", trackRouter);
 
