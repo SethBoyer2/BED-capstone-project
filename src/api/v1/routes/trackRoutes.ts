@@ -1,5 +1,4 @@
 import express from "express";
-import multer from 'multer'
 import {
   getAllTracks,
   createTrack,
@@ -10,7 +9,7 @@ import {
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
 
-const upload = multer({dest: 'media/uploads'})
+
 const trackRouter: express.Router = express.Router();
 
 /**
@@ -68,10 +67,7 @@ trackRouter.post(
   createTrack,
 );
 
-trackRouter.post(
-  "/tracks/:id/audio",
-  upload.single("audio"), uploadTrackAudio
-);
+
 
 /**
  * @openapi

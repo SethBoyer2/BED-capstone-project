@@ -6,6 +6,7 @@ import {
 } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
+import trackFileRouter from "./api/v1/routes/trackFileRoutes";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 
 // API Routes
 app.use("/api/v1", trackRouter);
+app.use("api/v1", trackFileRouter);
 
 app.get("/health", (_req, res) => {
   res.status(200).json({
