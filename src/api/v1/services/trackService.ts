@@ -125,6 +125,8 @@ export const updateTrackService = async (
   try {
     // separate length from other metadata
     // This allows us to overwrite length later if it needs to be parsed
+    // Required because previously length could not be overwritten as it is
+    // Entered in update JSON as string and parsed to number
     const { length, ...metadata } = trackData;
 
     const updateData: Partial<TrackMetadataBuild> = {
@@ -132,6 +134,7 @@ export const updateTrackService = async (
       updatedAt: new Date(),
     };
 
+    // parse updataData length
     if (length !== undefined) {
       updateData.length = parseLength(length);
     }

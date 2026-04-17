@@ -2,7 +2,7 @@ export interface TrackMetadataInput {
     "artist": string,
     "album": string,
     "title": string,
-    "length": string
+    "length": string // "4:10"
 }
 
 export interface TrackMetadataBuild {
