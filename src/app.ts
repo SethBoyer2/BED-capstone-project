@@ -16,6 +16,7 @@ import {
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
 import setupSwagger from "./config/swagger";
+import adminRoutes from "./api/v1/routes/adminRoutes";
 
 
 const app = express();
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use(cors(getCorsOptions()));
 app.use(getHelmetConfig());
 // API Routes
+app.use("/api/v1/admin", adminRoutes)
 app.use("/api/v1", trackRouter);
 
 app.get("/health", (_req, res) => {
