@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
 import express from "express";
-import cors from "cors";
+import cors from "cors"
 
 
+import { getCorsOptions } from "./config/corsConfig";
 import { getHelmetConfig } from "./config/helmetConfig";
 
 
