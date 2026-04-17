@@ -7,8 +7,8 @@ const trackFileRouter: express.Router = express.Router();
 
 
 trackFileRouter.post(
-  "/tracks/:id/audio",
-  upload.single("audio"), uploadTrackAudio
+  "/tracks/audio",
+  upload, uploadTrackAudio
 );
 
 

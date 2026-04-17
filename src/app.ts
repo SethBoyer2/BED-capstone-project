@@ -1,4 +1,13 @@
+import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
+
+
+import { getHelmetConfig } from "./config/helmetConfig";
+
+
+dotenv.config()
+
 import {
     accessLogger,
     errorLogger,
@@ -6,7 +15,13 @@ import {
 } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
+<<<<<<< HEAD
 import trackFileRouter from "./api/v1/routes/trackFileRoutes";
+=======
+import setupSwagger from "./config/swagger";
+import adminRoutes from "./api/v1/routes/adminRoutes";
+
+>>>>>>> c0e2cb6bc9b89d43cc4fd9db1f535bf45de80961
 
 const app = express();
 
@@ -22,8 +37,10 @@ if (process.env.NODE_ENV === "production") {
 
 // Body parsing middleware
 app.use(express.json());
-
+app.use(cors(getCorsOptions()));
+app.use(getHelmetConfig());
 // API Routes
+app.use("/api/v1/admin", adminRoutes)
 app.use("/api/v1", trackRouter);
 app.use("api/v1", trackFileRouter);
 
@@ -35,6 +52,7 @@ app.get("/health", (_req, res) => {
   });
 });
 
+setupSwagger(app)
 // Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
 
