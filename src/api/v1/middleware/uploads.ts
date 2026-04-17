@@ -16,7 +16,7 @@ import path from 'path'
 // use diskStorage to configure local file storage
 // add destination, and filename generation
 const storage = multer.diskStorage({
-    destination: '/.uploads/audio',
+    destination: './uploads/audio',
     filename: function(req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
     }
