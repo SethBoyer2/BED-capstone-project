@@ -43,7 +43,7 @@ export const itemSchemas = {
   create: {
     body: Joi.object({
       artist: Joi.string()
-      .optional()
+      .required()
       .trim()
       .empty("")
       .max(80)
@@ -61,7 +61,7 @@ export const itemSchemas = {
       }),
 
       title: Joi.string()
-        .optional()
+        .required()
         .trim()
         .max(80)
         .empty("")
