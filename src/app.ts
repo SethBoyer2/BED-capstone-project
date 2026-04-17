@@ -15,13 +15,10 @@ import {
 } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 import trackRouter from "./api/v1/routes/trackRoutes";
-<<<<<<< HEAD
 import trackFileRouter from "./api/v1/routes/trackFileRoutes";
-=======
 import setupSwagger from "./config/swagger";
 import adminRoutes from "./api/v1/routes/adminRoutes";
 
->>>>>>> c0e2cb6bc9b89d43cc4fd9db1f535bf45de80961
 
 const app = express();
 
