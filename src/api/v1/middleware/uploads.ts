@@ -26,7 +26,7 @@ const upload = multer({
   storage: storage, // set file destination as storage
   limits: { fileSize: 100000000 }, // set 100mb limit
   fileFilter: function (req, file, cb) {
-    const allowedMimeTypes = ["audio/flac", "audio/ogg", "audio/wav", "audio/opus"] // list of allowed MIME types
+    const allowedMimeTypes = ["audio/flac", "audio/ogg", "audio/wav", "audio/opus", "audio/mpeg"] // list of allowed MIME types
     if (!allowedMimeTypes.includes(file.mimetype)) { // if allowedMimeTypes does not include the mimeType of the file, return error.
         return cb(new Error("Please post a valid audio file. (OPUS, WAV, OGG, MP3."))
     }
