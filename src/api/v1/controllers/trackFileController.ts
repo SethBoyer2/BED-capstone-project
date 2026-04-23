@@ -1,13 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "src/constants/httpConstants";
-import { errorResponse, successResponse } from "../models/responseModel";
-import { trackFileService } from "../services/trackFileService";
+import { uploadTrackAudioService } from "../services/trackFileService";
+import { successResponse } from "../models/responseModel";
 
 export const uploadTrackAudio = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.file) {
-    return res
-    .status(HTTP_STATUS.BAD_REQUEST)
-    .json(errorResponse("Failure:", "No valid audio file was found."))
+  try {
+    const result = uploadTrackAudioService({
+    file: req.file as Express.Multer.File
+  })
+     res
+      .status(HTTP_STATUS.CREATED)
+      .json(
+        successResponse(result, "Track uploaded successfully!"),
+      );
+  } catch (error) {
+    next(error);
   }
-  await trackFileService
-}
+};
+
+

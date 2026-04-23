@@ -18,6 +18,7 @@ import trackRouter from "./api/v1/routes/trackRoutes";
 import trackFileRouter from "./api/v1/routes/trackFileRoutes";
 import setupSwagger from "./config/swagger";
 import adminRoutes from "./api/v1/routes/adminRoutes";
+import { getCorsOptions } from "./config/corsConfig";
 
 
 const app = express();
@@ -39,7 +40,7 @@ app.use(getHelmetConfig());
 // API Routes
 app.use("/api/v1/admin", adminRoutes)
 app.use("/api/v1", trackRouter);
-app.use("api/v1", trackFileRouter);
+app.use("/api/v1", trackFileRouter);
 
 app.get("/health", (_req, res) => {
   res.status(200).json({

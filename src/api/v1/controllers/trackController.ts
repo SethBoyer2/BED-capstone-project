@@ -13,7 +13,6 @@ import {
   getTrackByIdService,
   updateTrackService,
 } from "../services/trackService";
-import { trackFileService } from "../services/trackFileService";
 
 export const getAllTracks = async (
   req: Request,
