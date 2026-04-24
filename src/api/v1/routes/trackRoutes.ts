@@ -9,6 +9,7 @@ import {
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
 
+
 const trackRouter: express.Router = express.Router();
 
 /**
@@ -65,6 +66,8 @@ trackRouter.post(
   isAuthorized({ hasRole: ["admin", "manager"] }),
   createTrack,
 );
+
+
 
 /**
  * @openapi

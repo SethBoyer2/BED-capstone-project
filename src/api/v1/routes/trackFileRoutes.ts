@@ -1,17 +1,16 @@
-// import express from "express";
-// import multer from 'multer'
+import express from "express";
+import { upload } from "../middleware/uploads";
+import { uploadTrackAudio } from "../controllers/trackFileController";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
-// import { upload } from "../middleware/uploads";
-
-// const trackFileRouter: express.Router = express.Router();
-
-
-// trackFileRouter.post(
-//   "/tracks/audio",
-//   upload, uploadTrackAudio
-// );
+const trackFileRouter: express.Router = express.Router();
 
 
+trackFileRouter.post(
+  "/tracks/audio", authenticate,
+  isAuthorized({ hasRole: ["admin", "manager"] }),
+  upload, uploadTrackAudio
+);
 
-
-// export default trackFileRouter;
+export default trackFileRouter;
